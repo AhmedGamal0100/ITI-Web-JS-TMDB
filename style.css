@@ -1,0 +1,346 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgba(218, 221, 224, 0.459);
+    overflow: scroll;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.header-strip {
+    position: sticky;
+    top: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 20px;
+    background-color: rgba(218, 221, 224, 0.65);
+    list-style: none;
+    padding-inline: 10px;
+}
+
+.search-input {
+    padding-left: 20px;
+}
+
+.search-input input {
+    width: 300px;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+}
+
+.api-key-input {
+    display: flex;
+    gap: 15px;
+}
+
+.api-key-input .btn {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+    /* transition: all 300ms ease-in-out; */
+}
+
+.api-key-input .btn:hover {
+    background-color: rgb(99, 99, 99);
+    scale: 1.1;
+    color: white;
+    transition: 0.1s;
+}
+
+.btn-select {
+    background-color: rgb(99, 99, 99) !important;
+    scale: 1.1;
+    color: white;
+}
+
+.time-filter-Dropdown {
+    padding-right: 20px;
+}
+
+.time-filter-Dropdown select {
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+    padding-inline: 5px;
+}
+
+.time-filter-Dropdown select:hover {
+    background-color: rgba(218, 221, 224, 0.65);
+    cursor: pointer;
+    scale: 1.05;
+}
+
+.body {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    height: 100%;
+    gap: 20px;
+    padding-inline: 25px;
+    padding-top: 25px;
+
+    margin: auto;
+    width: 100%;
+    align-items: center;
+}
+
+.body .card-container {
+    width: 295px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 1px;
+    background-color: rgba(0, 0, 0, 0.13);
+    max-height: 550px;
+    overflow: hidden;
+}
+
+.body .card-container img {
+    width: 100%;
+    height: 400px;
+    border-radius: 10px 10px 0 0;
+}
+
+.body .card-container .card-text {
+    padding: 5px 10px 10px 10px;
+    height: 100px;
+}
+
+.body .card-container .card-text h2 {
+    font-size: 0.98rem;
+    font-weight: 600;
+}
+
+.body .card-container .card-text p {
+    margin-top: 5px;
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+.card-preview {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    transform: 1s;
+}
+
+.card-preview-container {
+    display: flex;
+    position: relative;
+    text-align: center;
+    justify-content: center;
+    top: 5%;
+    width: 50%;
+    transform: translateX(50%);
+    transition: 0.5s ease-in-out;
+
+}
+
+.img-preview-selected {
+    height: 80vh;
+}
+
+.card-preview-container-buttons {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    text-align: center;
+    justify-content: center;
+    margin-top: 20px;
+    top: 3%;
+}
+
+.card-preview-container-buttons button {
+    padding: 10px;
+    border-radius: 14px;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: 0.2s;
+}
+
+.card-preview-container-buttons button:hover {
+    background-color: white;
+    scale: 1.2;
+    cursor: pointer;
+}
+
+.data-preview {
+    /* visibility: hidden; */
+    display: block;
+    text-align: left;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: white;
+    width: 50%;
+    height: 95%;
+    top: 2.5%;
+    padding: 5px;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    transform: translateX(50%); 
+    transition: 0.5s;
+}
+
+
+@media (max-width: 1280px) {
+    .card-preview-container-buttons {
+        top: 5%;
+        scale: 1.35;
+    }
+}
+
+@media (max-width: 1024px) {
+    .card-preview-container-buttons {
+        top: 6%;
+        scale: 2;
+    }
+}
+
+@media (max-width: 920px) {
+    .card-preview-container-buttons {
+        top: 5.5%;
+        scale: 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding-inline: 15%;
+    }
+
+    .search-input,
+    .time-filter-Dropdown {
+        padding-inline: 0px;
+    }
+
+    .card-preview-container-buttons {
+        top: 5%;
+        scale: 1.2;
+    }
+}
+
+@media (max-width: 540px) {
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding-inline: 15%;
+    }
+
+    .search-input,
+    .time-filter-Dropdown {
+        padding-inline: 0px;
+    }
+
+    .body {
+        display: flex;
+        margin: auto;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .body .card-container {
+        width: 70%;
+    }
+
+    .card-preview-container {
+        height: 50%;
+        top: 5%;
+    }
+
+    .card-preview-container img {
+        height: 150%;
+    }
+
+    .card-preview-container-buttons {
+        top: 30%;
+        scale: 0.95;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding-inline: 15%;
+    }
+
+    .search-input,
+    .time-filter-Dropdown {
+        padding-inline: 0px;
+    }
+
+    .api-key-input {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .body {
+        display: flex;
+        margin: auto;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .body .card-container {
+        width: 100%;
+    }
+
+    .card-preview-container {
+        top: 20%;
+    }
+
+    .card-preview-container img {
+        height: 110%;
+    }
+
+    .card-preview-container-buttons {
+        top: 25%;
+        scale: 1.1;
+    }
+}
+
