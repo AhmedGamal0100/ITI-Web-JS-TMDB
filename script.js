@@ -25,6 +25,8 @@ function apiReturn(timeWindowValue, filterCategoryValue) {
                 var res = JSON.parse(api.responseText).results;
                 searchList = res;
                 searchListArg = res;
+                console.log(res);
+
                 resolve(res);
             }
         });
@@ -124,113 +126,151 @@ searchInput.addEventListener("input", function (e) {
     }
 })
 
-
 containerBody.addEventListener("click", cardPreview);
 function cardPreview(e) {
     cardPreviewAndDisplay.innerHTML = "";
     if (e.target.getAttribute("id")) {
-        cardPreviewAndDisplay.style.display = "block";
+        cardPreviewAndDisplay.classList.remove("hidden");
         searchListArg.forEach(element => {
             if (element.id == e.target.getAttribute("id")) {
                 currentIndex = searchListArg.indexOf(element);
                 cardDisplay(element);
-                prevFunction();
-                dataFunction();
-                nextFunction();
-                existPeviewFunction();
+                cardPreviewAndDisplay.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    exitPreviewFunction(e.target);
+                });
+                window.addEventListener("keydown", function (e) {
+                    e.stopPropagation();
+                    if (e.key == "ArrowLeft") {
+                        prevFunction();
+                    }
+                    else if (e.key == "ArrowRight") {
+                        nextFunction();
+                    }
+                    else if (e.key == "Escape") {
+                        exitPreviewFunction(e.target);
+                    }
+                })
             }
         });
     }
 }
 
 function cardDisplay(cardObj) {
-    var carPreviewContainer = document.createElement("div");
-    carPreviewContainer.classList.add("card-preview-container");
-    cardPreviewAndDisplay.appendChild(carPreviewContainer);
+    cardPreviewAndDisplay.innerHTML = `
+        <div class="card-preview-container">
+            <img src="${(constURL + (cardObj.poster_path || cardObj.profile_path))}" class= "img-preview-selected">
+            <div class="card-preview-container-buttons">
+            </div>
+        </div>`;
 
-    var imgPreview = document.createElement("img");
-    imgPreview.setAttribute("src", (constURL + (cardObj.poster_path || cardObj.profile_path)));
-    imgPreview.classList.add("img-preview-selected");
-    carPreviewContainer.appendChild(imgPreview);
+    let prevButton = document.createElement("button");
+    prevButton.setAttribute("class", "prev-btn");
+    prevButton.addEventListener("click", function (e) {
+        e.stopPropagation();
+        prevFunction();
+    });
+    prevButton.innerHTML = `<i class="material-icons">&#xe5c4;</i>`;
 
-    var cardPreviewContainerButton = document.createElement("div");
-    cardPreviewContainerButton.classList.add("card-preview-container-buttons");
-    cardPreviewAndDisplay.appendChild(cardPreviewContainerButton);
+    let dataButton = document.createElement("button");
+    dataButton.setAttribute("class", "data-btn");
+    dataButton.addEventListener("click", function (e) {
+        e.stopPropagation();
+        dataFunction();
+    });
+    dataButton.innerHTML = `<i class="material-icons">&#xe5d2;</i>`;
 
-    cardPreviewContainerButton.innerHTML = `<button class="prev-btn"><i class="material-icons">&#xe5c4;</i></button>
-                                            <button class="data-btn"><i class="material-icons">&#xe5d2;</i></button>
-                                            <button class="next-btn"><i class="material-icons">&#xe5c8;</i></button>`;
+    let nextButton = document.createElement("button");
+    nextButton.setAttribute("class", "next-btn");
+    nextButton.addEventListener("click", function (e) {
+        e.stopPropagation();
+        nextFunction();
+    });
+    nextButton.innerHTML = `<i class="material-icons">&#xe5c8;</i>`;
+
+    document.querySelector(".card-preview-container-buttons").appendChild(prevButton);
+    document.querySelector(".card-preview-container-buttons").appendChild(dataButton);
+    document.querySelector(".card-preview-container-buttons").appendChild(nextButton);
+
+    let dataPreview = document.createElement("div");
+    dataPreview.classList.add("data-preview");
+    dataPreview.classList.add("hidden");
+    document.querySelector(".card-preview-container").appendChild(dataPreview);
+    previewDataWillNavigation(currentIndex);
 }
 
-
 function prevFunction() {
-    document.querySelector(".prev-btn").addEventListener("click", (e) => {
-        prevIndex = currentIndex - 1;
-        dataPreviewFunction();
-        e.stopPropagation();
-        if (prevIndex < 0) {
-            prevIndex = searchListArg.length - 1
-            currentIndex = prevIndex;
-            document.querySelector(".img-preview-selected")
-                .setAttribute("src", (constURL + (searchListArg[prevIndex].poster_path || searchListArg[prevIndex].profile_path)));
-        }
-        else {
-            document.querySelector(".img-preview-selected")
-                .setAttribute("src", (constURL + (searchListArg[prevIndex].poster_path || searchListArg[prevIndex].profile_path)));
-            currentIndex--;
-        }
-    });
+    var prevIndex = currentIndex - 1;
+    if (prevIndex < 0) {
+        prevIndex = searchListArg.length - 1
+        currentIndex = prevIndex;
+        document.querySelector(".img-preview-selected")
+            .setAttribute("src", (constURL + (searchListArg[prevIndex].poster_path || searchListArg[prevIndex].profile_path)));
+    }
+    else {
+        document.querySelector(".img-preview-selected")
+            .setAttribute("src", (constURL + (searchListArg[prevIndex].poster_path || searchListArg[prevIndex].profile_path)));
+        currentIndex--;
+    }
+
+    if (!document.querySelector(".data-preview").classList.contains("hidden")) {
+        document.querySelector(".data-preview").classList.add("hidden");
+    }
+    previewDataWillNavigation(prevIndex)
 }
 
 function dataFunction() {
-    document.querySelector(".data-btn").addEventListener("click", (e) => {
-        e.stopPropagation();
-        // preview data
-        var dataPreview = document.createElement("div");
-        dataPreview.classList.add("data-preview");
-        document.querySelector(".card-preview-container").appendChild(dataPreview);
-        dataPreview.innerHTML = `
-        <h2>${searchListArg[currentIndex].name || searchListArg[currentIndex].title}</h2>
-        <p>${searchListArg[currentIndex].overview}</p>
-        `;
-        document.querySelector(".data-btn").disabled = true;
-    });
+    document.querySelector(".data-preview").classList.toggle("hidden");
+
 }
 
 function nextFunction() {
-    document.querySelector(".next-btn").addEventListener("click", (e) => {
-        nextIndex = currentIndex + 1;
-        dataPreviewFunction();
-        e.stopPropagation();
-        if (nextIndex > searchListArg.length - 1) {
-            nextIndex = 0;
-            currentIndex = nextIndex;
-            document.querySelector(".img-preview-selected")
-                .setAttribute("src", (constURL + (searchListArg[nextIndex].poster_path || searchListArg[nextIndex].profile_path)));
-        }
-        else {
-            document.querySelector(".img-preview-selected")
-                .setAttribute("src", (constURL + (searchListArg[nextIndex].poster_path || searchListArg[nextIndex].profile_path)));
-            currentIndex++;
-        }
-    });
+    var nextIndex = currentIndex + 1;
+
+    if (nextIndex > searchListArg.length - 1) {
+        nextIndex = 0;
+        currentIndex = nextIndex;
+        document.querySelector(".img-preview-selected")
+            .setAttribute("src", (constURL + (searchListArg[nextIndex].poster_path || searchListArg[nextIndex].profile_path)));
+    }
+    else {
+        document.querySelector(".img-preview-selected")
+            .setAttribute("src", (constURL + (searchListArg[nextIndex].poster_path || searchListArg[nextIndex].profile_path)));
+        currentIndex++;
+    }
+    if (!document.querySelector(".data-preview").classList.contains("hidden")) {
+        document.querySelector(".data-preview").classList.add("hidden");
+    }
+    previewDataWillNavigation(nextIndex)
 }
 
-function existPeviewFunction() {
-    dataPreviewFunction();
-    cardPreviewAndDisplay.addEventListener("click", (e) => {
-        e.stopPropagation();
-        cardPreviewAndDisplay.style.display = "none";
+function exitPreviewFunction(target) {
+    if (target != document.querySelector(".img-preview-selected") &
+        target != document.querySelector(".data-preview") &
+        target != document.querySelector(".data-preview h2") &
+        target != document.querySelector(".data-preview p")) {
+        cardPreviewAndDisplay.classList.add("hidden");
         cardPreviewAndDisplay.classList.remove("card-preview-container");
         cardPreviewAndDisplay.classList.remove("card-preview-container-buttons");
         cardPreviewAndDisplay.classList.remove("img-preview-selected");
-    });
-}
-
-function dataPreviewFunction() {
-    if (document.querySelector(".data-preview")) {
-        document.querySelector(".card-preview-container").removeChild(document.querySelector(".data-preview"));
-        document.querySelector(".data-btn").disabled = false;
     }
 }
 
+function previewDataWillNavigation(i) {
+    document.querySelector(".data-preview").innerHTML = `
+            <h2>${searchListArg[i].name || searchListArg[i].title}</h2>
+            <hr>
+            <h4>Overview:</h4>
+            <p>${searchListArg[i].overview}</p>
+            <div class="vote">
+            <div>
+            <h4>Vote Rate</h4> 
+            <p>${searchListArg[i].vote_average}</p>
+            </div>
+            <div>
+            <h4>Vote Count</h4> 
+            <p>${searchListArg[i].vote_count}</p>
+            </div>
+            </div>
+            `;
+}

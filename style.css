@@ -96,7 +96,6 @@ body {
     gap: 20px;
     padding-inline: 25px;
     padding-top: 25px;
-
     margin: auto;
     width: 100%;
     align-items: center;
@@ -107,7 +106,7 @@ body {
     background-color: white;
     border-radius: 10px;
     padding: 1px;
-    background-color: rgba(0, 0, 0, 0.13);
+    background-color: rgba(0, 0, 0, 0.2);
     max-height: 550px;
     overflow: hidden;
 }
@@ -134,49 +133,48 @@ body {
     font-weight: 400;
 }
 
+.hidden {
+    visibility: hidden;
+}
+
 .card-preview {
-    display: none;
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    transform: 1s;
+    width: 100%;
+    height: 100vh;
 }
 
 .card-preview-container {
-    display: flex;
-    position: relative;
     text-align: center;
-    justify-content: center;
-    top: 5%;
+    transform: translate(50%, 10%);
+    height: 80%;
     width: 50%;
-    transform: translateX(50%);
-    transition: 0.5s ease-in-out;
-
 }
 
 .img-preview-selected {
-    height: 80vh;
+    height: 90%;
+    width: 50%;
 }
 
 .card-preview-container-buttons {
     position: relative;
     display: flex;
-    gap: 10px;
+    gap: 15px;
     text-align: center;
     justify-content: center;
-    margin-top: 20px;
-    top: 3%;
+    transform: translateY(20%);
 }
 
 .card-preview-container-buttons button {
     padding: 10px;
     border-radius: 14px;
     border: none;
+    scale: 1.1;
     background-color: rgba(0, 0, 0, 0.5);
-    transition: 0.2s;
 }
 
 .card-preview-container-buttons button:hover {
@@ -186,44 +184,71 @@ body {
 }
 
 .data-preview {
-    /* visibility: hidden; */
-    display: block;
-    text-align: left;
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    color: white;
+    text-align: center;
+    top: 0px;
     width: 50%;
-    height: 95%;
-    top: 2.5%;
+    height: 90%;
     padding: 5px;
-    left: 0;
+    transform: translateX(50%);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.8);
+    overflow-y: scroll;
+}
+
+.data-preview:hover {
     background-color: rgba(0, 0, 0, 0.5);
-    transform: translateX(50%); 
     transition: 0.5s;
 }
 
+.data-btn:active {
+    background-color: rgba(0, 0, 0, 1);
+}
 
-@media (max-width: 1280px) {
-    .card-preview-container-buttons {
-        top: 5%;
-        scale: 1.35;
-    }
+.data-preview h2{
+    padding-block: 10px;
+}
+
+.data-preview h4 {
+    padding: 10px;
+}
+
+.data-preview hr {
+    justify-self: center;
+    width: 80%;
+    border: 1px white solid;
+}
+
+.data-preview p {
+    padding-inline: 5px;
+    font-size: small;
+}
+
+.data-preview .vote {
+    display: flex;
+    padding-top: 5px;
+    gap: 20px;
+    justify-content: center;
+}
+
+.data-preview p{
+    text-align: center;
 }
 
 @media (max-width: 1024px) {
-    .card-preview-container-buttons {
-        top: 6%;
-        scale: 2;
+    .card-preview-container {
+        transform: translate(33%, 30%);
+        width: 60%;
+        height: 60%;
     }
-}
 
-@media (max-width: 920px) {
-    .card-preview-container-buttons {
-        top: 5.5%;
-        scale: 2;
+    .img-preview-selected {
+        width: 100%;
+    }
+
+    .data-preview {
+        width: 100%;
+        transform: translateX(0.1%);
     }
 }
 
@@ -243,10 +268,7 @@ body {
         padding-inline: 0px;
     }
 
-    .card-preview-container-buttons {
-        top: 5%;
-        scale: 1.2;
-    }
+
 }
 
 @media (max-width: 540px) {
@@ -265,32 +287,7 @@ body {
         padding-inline: 0px;
     }
 
-    .body {
-        display: flex;
-        margin: auto;
-        width: 100%;
-        height: 100%;
-        justify-content: center;
-        align-items: center;
-    }
 
-    .body .card-container {
-        width: 70%;
-    }
-
-    .card-preview-container {
-        height: 50%;
-        top: 5%;
-    }
-
-    .card-preview-container img {
-        height: 150%;
-    }
-
-    .card-preview-container-buttons {
-        top: 30%;
-        scale: 0.95;
-    }
 }
 
 @media (max-width: 480px) {
@@ -317,30 +314,11 @@ body {
         width: 100%;
     }
 
-    .body {
-        display: flex;
-        margin: auto;
-        width: 100%;
-        height: 100%;
-        justify-content: center;
-        align-items: center;
+    .img-preview-selected,
+    .data-preview {
+        width: 130%;
+        transform: translateX(-11%);
     }
 
-    .body .card-container {
-        width: 100%;
-    }
 
-    .card-preview-container {
-        top: 20%;
-    }
-
-    .card-preview-container img {
-        height: 110%;
-    }
-
-    .card-preview-container-buttons {
-        top: 25%;
-        scale: 1.1;
-    }
 }
-
